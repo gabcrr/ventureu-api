@@ -1,0 +1,172 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: #000;
+    color: white;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px 50px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+nav.scrolled {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+nav .logo {
+    color: #fff;
+    font-size: 24px;
+}
+
+nav .menu-toggle {
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #ffd700;
+}
+
+.full-screen {
+    height: 100vh;
+    background-size: cover;
+    background-position: bottom;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+.content {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+}
+
+.btn {
+    background-color: #ffd700;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background-color: #ffae00;
+}
+
+.side-bar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: left 0.3s ease;
+    z-index: 999;
+    padding: 50px 20px;
+}
+
+.side-bar.open {
+    left: 0;
+}
+
+.side-bar ul {
+    list-style: none;
+}
+
+.side-bar ul li {
+    margin: 20px 0;
+}
+
+.side-bar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.side-bar ul li a:hover {
+    color: #ffd700;
+}
+
+.scrolled {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+#navbar.scrolled {
+    padding: 10px 30px;
+}
+
+#navbar ul {
+    justify-content: flex-end;
+}
+
+.estatisticas {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 50px 20px;
+    background-color: #111;
+}
+
+.estatistica {
+    text-align: center;
+    background-color: #000;
+    border: 3px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    flex: 1;
+    margin: 0 10px;
+}
+
+.numero {
+    font-size: 2.5rem;
+    color: red;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.descricao {
+    font-size: 1.5rem;
+    color: white;
+    margin: 10px 0;
+}
+
+.detalhe {
+    font-size: 1rem;
+    color: #777;
+}
