@@ -161,4 +161,59 @@ public class UsuarioDAO {
 
         return retorno;
     }
+    
+    public boolean emailJaExiste(String email) {
+        boolean existe = false;
+
+        String sql = "SELECT COUNT(*) AS total FROM usuario WHERE email = ?";
+
+        try (
+            Connection conexao = ConnectionFactory.getConexao();
+            PreparedStatement comando = conexao.prepareStatement(sql);
+        ) {
+            comando.setString(1, email);
+
+            try (ResultSet resultado = comando.executeQuery()) {
+                if (resultado.next()) {
+                    existe = resultado.getInt("total") > 0;
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erro ao verificar existência de email: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return existe;
+    }
+    
+    public Usuario buscarUsuarioPorEmailESenha(String email, String senha) {
+        Usuario usuario = null;
+
+        String sql = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
+
+        try (
+            Connection conexao = ConnectionFactory.getConexao();
+            PreparedStatement comando = conexao.prepareStatement(sql);
+        ) {
+            comando.setString(1, email);
+            comando.setString(2, senha);
+
+            try (ResultSet resultado = comando.executeQuery()) {
+                if (resultado.next()) {
+                    usuario = new Usuario();
+                    usuario.setId(resultado.getInt("id"));
+                    usuario.setNome(resultado.getString("nome"));
+                    usuario.setEmail(resultado.getString("email"));
+                    usuario.setSenha(resultado.getString("senha")); // Caso use hashing, ajustar aqui
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erro ao buscar usuário por email e senha: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return usuario;
+    }
+
+
 }

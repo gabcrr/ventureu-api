@@ -31,6 +31,13 @@ public class ProdutoController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getServletPath();
 		
+//		Boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");
+//        
+//        // Se o usuário não for admin, redireciona para uma página de erro
+//        if (isAdmin == null || !isAdmin) {
+//            response.sendRedirect("views/error.jsp");
+//            return;
+//        }
 
 		try {
 		    switch (action) {

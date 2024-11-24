@@ -20,6 +20,6 @@
         </div>
         <button type="submit">Entrar</button>
     </form>
-    <a href="${pageContext.request.contextPath}/views/login/usuario-cadastro.jsp">Ainda não tem conta? Cadastre-se</a>
+    <a href="${pageContext.request.contextPath}/views/cadastro/usuario-cadastro.jsp">Ainda não tem conta? Cadastre-se</a>
 </body>
 </html>
