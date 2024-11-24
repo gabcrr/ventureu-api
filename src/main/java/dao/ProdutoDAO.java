@@ -17,7 +17,7 @@ public class ProdutoDAO {
 	public boolean inserir(Produto objProduto) {
 		boolean retorno = false;
 		
-		String sql = "INSERT INTO Produto (nomeProduto, qtdProdutos, valorProduto) VALUES (?,?,?)";
+		String sql = "INSERT INTO Produto (nomeProduto, qtdProduto, valorProduto) VALUES (?,?,?)";
 		
 		try(
 				Connection conexao = ConnectionFactory.getConexao();
@@ -53,7 +53,7 @@ public class ProdutoDAO {
 			while(rs.next()) {
 				int idProduto = rs.getInt("idProduto");
 				String nomeProduto = rs.getString("nomeProduto");
-				int qtdProduto = rs.getInt("qtdProdutos");
+				int qtdProduto = rs.getInt("qtdProduto");
 				float valorProduto = rs.getFloat("valorProduto");
 				
 				Produto objLista = new Produto(idProduto, nomeProduto, qtdProduto, valorProduto);

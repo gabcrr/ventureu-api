@@ -13,8 +13,11 @@ public class ConnectionFactory {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
-			String url = "jdbc:mysql://localhost:3306/ventureau_store";
-			conexao = DriverManager.getConnection(url, "root", "12345");
+			//jdbc:mysql://localhost:3306/ventureau_store
+			//jdbc:mysql://127.0.0.1:3306/ventureau
+			
+			String url = "jdbc:mysql://127.0.0.1:3306/ventureau";
+			conexao = DriverManager.getConnection(url, "root", "root");
 			
 		   
 		}catch(SQLException ex) {

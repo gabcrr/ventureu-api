@@ -14,7 +14,7 @@
 	    <input type="hidden" name="idProduto" value="${produto.getIdProduto()}">
 	
 		Nome: <input type="text" name="nomeProduto" value="${produto.getNomeProduto()}"><br>
-		Quantidade: <input type="text" name="qtdProdutos" value="${produto.getQtdProdutos()}"><br>
+		Quantidade: <input type="text" name="qtdProduto" value="${produto.getQtdProdutos()}"><br>
 		Valor: <input type="text" name="valorProduto" value="${produto.getValorProduto()}"><br>
 	
 	    <input type="submit" value="Salvar">

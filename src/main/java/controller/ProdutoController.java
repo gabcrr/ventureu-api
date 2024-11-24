@@ -121,7 +121,7 @@ public class ProdutoController extends HttpServlet {
 		
 		int id = Integer.parseInt(request.getParameter("idProduto"));
 		String nomeProduto = request.getParameter("nomeProduto");
-		int qtdProduto = Integer.parseInt(request.getParameter("qtdProdutos"));
+		int qtdProduto = Integer.parseInt(request.getParameter("qtdProduto"));
 		float valorProduto = Float.parseFloat(request.getParameter("valorProduto"));
 		 
 		Produto produtoAlterar = new Produto(id, nomeProduto, qtdProduto, valorProduto);
