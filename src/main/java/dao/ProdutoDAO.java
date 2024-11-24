@@ -73,28 +73,34 @@ public class ProdutoDAO {
 		Produto objRetorno = null;
 		String sql = "SELECT * FROM Produto WHERE idProduto = ?";
 		
-		try(
-				Connection conexao = ConnectionFactory.getConexao();
-				PreparedStatement comando = conexao.prepareStatement(sql);
-				
-		){
-			comando.setInt(1, id);
-			ResultSet rs = comando.executeQuery();
-			
-			while(rs.next()) {
-				int idProduto = rs.getInt("idProduto");
-				String nomeProduto = rs.getString("nomeProduto");
-				int qtdProduto = rs.getInt("qtdProdutos");
-				float valorProduto = rs.getFloat("valorProduto");
-				
-				objRetorno = new Produto(idProduto, nomeProduto, qtdProduto, valorProduto);
-				
-				
-			}
-			
-		}catch(SQLException e) {
-			e.printStackTrace();
+		System.out.println("ID recebido: " + id);
+		System.out.println("SQL: " + sql);
+
+		try (
+		    Connection conexao = ConnectionFactory.getConexao();
+		    PreparedStatement comando = conexao.prepareStatement(sql);
+		) {
+		    comando.setInt(1, id);
+		    ResultSet rs = comando.executeQuery();
+
+		    if (!rs.isBeforeFirst()) {
+		        System.out.println("Nenhum registro encontrado para o ID: " + id);
+		    }
+
+		    while (rs.next()) {
+		        System.out.println("Registro encontrado no banco");
+		        int idProduto = rs.getInt("idProduto");
+		        String nomeProduto = rs.getString("nomeProduto");
+		        int qtdProduto = rs.getInt("qtdProdutos");
+		        float valorProduto = rs.getFloat("valorProduto");
+
+		        objRetorno = new Produto(idProduto, nomeProduto, qtdProduto, valorProduto);
+		    }
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		    System.out.println("Erro ao buscar produto: " + e.getMessage());
 		}
+
 		
 		return objRetorno;
 	}
@@ -102,7 +108,7 @@ public class ProdutoDAO {
 	public boolean atualizar(Produto objAtualizar) {
 		boolean retorno = false;
 		
-		String sql = "UPDATE Produto SET nomeProduto=?, qtdProdutos=?, valorProduto=?, WHERE idProduto = ?";
+		String sql = "UPDATE Produto SET nomeProduto=?, qtdProdutos=?, valorProduto=? WHERE idProduto = ?";
 		
 		try(
 				Connection conexao = ConnectionFactory.getConexao();

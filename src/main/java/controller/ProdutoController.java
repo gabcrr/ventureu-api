@@ -110,7 +110,6 @@ public class ProdutoController extends HttpServlet {
 	private void editarForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		System.out.println("id recebido:" + id);
 		Produto produtoAlterar = produtoDAO.buscarPorId(id);
 		
 		request.setAttribute("produto", produtoAlterar);
