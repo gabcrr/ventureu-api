@@ -1,0 +1,134 @@
+@charset "UTF-8";
+
+* {
+    font-family: 'Unbounded', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #121212;
+    color: #E5E5E5;
+    margin: 0;
+    padding: 0;
+}
+
+header, footer {
+    background-color: #1E1E1E;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+h1 {
+    text-align: center;
+    color: #FFFFFF;
+    margin: 30px 0;
+    font-size: 28px;
+    text-transform: uppercase;
+}
+
+.container {
+    width: 70%;  /* Reduzindo a largura do container para 70% */
+    max-width: 1000px;  /* Definindo um limite máximo para o container */
+    margin: 0 auto;  /* Centralizando o container na tela */
+    padding: 20px;
+    background-color: #181818;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #2C2C2C;
+}
+
+th {
+    background-color: #D71E1E;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+
+td {
+    background-color: #1E1E1E;
+    color: #FFFFFF;
+}
+
+td a {
+    color: #D71E1E;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 200ms ease;
+}
+
+td a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+
+button {
+    background-color: #D71E1E;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 200ms ease, transform 100ms ease;
+}
+
+button:hover {
+    background-color: #C71E1E;
+    transform: scale(1.05);
+}
+
+.actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.actions a {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #D71E1E;
+    color: #FFFFFF;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 200ms ease, transform 100ms ease;
+}
+
+.actions a:hover {
+    background-color: #C71E1E;
+    transform: scale(1.05);
+}
+
+.carrinho-vazio {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #F39C12;  /* Cor amarela para destacar */
+    background-color: #2C3E50;  /* Fundo escuro para contraste */
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.carrinho-vazio i {
+    font-size: 24px;
+    margin-right: 10px;
+    color: #F39C12;
+}

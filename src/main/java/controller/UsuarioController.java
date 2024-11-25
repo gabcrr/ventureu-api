@@ -1,3 +1,4 @@
+
 package controller;
 
 import java.io.IOException;
@@ -6,7 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
 import dao.UsuarioDAO;
 import model.Usuario;
 import utils.ConnectionFactory;
@@ -32,6 +33,9 @@ public class UsuarioController extends HttpServlet {
                 case "login":
                     loginUsuario(request, response);
                     break;
+                case "logout":
+                	logout(request, response);
+                    break;
                 default:
                     response.sendRedirect("error.jsp");
                     break;
@@ -47,14 +51,16 @@ public class UsuarioController extends HttpServlet {
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
 
-        Usuario usuario = new Usuario(nome, email, senha); 
+        Usuario usuario = new Usuario(nome, email, senha);
 
         try {
             UsuarioDAO usuarioDAO = new UsuarioDAO();
 
+            // Verificar se o email já existe
             if (usuarioDAO.emailJaExiste(email)) {
-                response.sendRedirect("views/cadastro/cadastro-existente.jsp"); 
+                response.sendRedirect("views/cadastro/cadastro-existente.jsp");
             } else {
+                // Tentar inserir o usuário no banco de dados
                 boolean sucesso = usuarioDAO.inserir(usuario);
                 if (sucesso) {
                     response.sendRedirect("views/cadastro/successCadastro.jsp");
@@ -62,40 +68,12 @@ public class UsuarioController extends HttpServlet {
                     response.sendRedirect("views/cadastro/errorCadastro.jsp");
                 }
             }
-            
-//            if (sucesso) {
-//                response.sendRedirect("views/cadastro/successCadastro.jsp");
-//            } else {
-//                response.sendRedirect("views/cadastro/errorCadastro.jsp");
-//            }
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");
         }
     }
 
-//    private void loginUsuario(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        String email = request.getParameter("email");
-//        String senha = request.getParameter("senha");
-//
-//        try {
-//            UsuarioDAO usuarioDAO = new UsuarioDAO();
-//            Usuario usuario = usuarioDAO.buscarPorEmailESenha(email, senha);
-//
-//            if (usuario != null) {
-//                // Adiciona usuário à sessão
-//                request.getSession().setAttribute("usuarioLogado", usuario);
-//                response.sendRedirect("index.jsp");
-//            } else {
-//                response.sendRedirect("views/login/login-fail.jsp");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            response.sendRedirect("webapp/error.jsp");
-//        }
-//    }
-    
     private void loginUsuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String email = request.getParameter("email");
@@ -107,31 +85,44 @@ public class UsuarioController extends HttpServlet {
         try (var connection = ConnectionFactory.getConexao()) {
             UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-            // Primeiro verificamos se o usuário é o administrador fixo
+            // Verificar se é o administrador fixo
             if (email.equals(ADMIN_EMAIL) && senha.equals(ADMIN_SENHA)) {
                 Usuario admin = new Usuario();
                 admin.setNome("Administrador");
                 admin.setEmail(ADMIN_EMAIL);
+                
+                //HttpSession session = request.getSession();
                 request.getSession().setAttribute("usuarioLogado", admin);
                 request.getSession().setAttribute("isAdmin", true);
                 response.sendRedirect("views/admin/admin-home.jsp");
                 return;
             }
 
-            // Caso contrário, verificamos no banco de dados
+            // Caso contrário, verificar no banco de dados
             Usuario usuario = usuarioDAO.buscarUsuarioPorEmailESenha(email, senha);
 
             if (usuario != null) {
+            	 HttpSession session = request.getSession();
+                 session.setAttribute("usuarioId", usuario.getId());
+                
+                session.setAttribute("usuarioLogado", usuario);
                 request.getSession().setAttribute("usuarioLogado", usuario);
                 request.getSession().setAttribute("isAdmin", false);
-                response.sendRedirect("views/home.jsp");
+                response.sendRedirect("views/home/home.jsp");
             } else {
-                response.sendRedirect("views/cadastro/cadastro-existente.jsp");
+                // Se o usuário não for encontrado, redirecionar para a página de cadastro
+                response.sendRedirect("views/login/login-fail.jsp");
             }
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");
         }
     }
-
+    
+    private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        session.invalidate(); // Encerrar a sessão
+        response.sendRedirect("views/login/login.jsp"); // Redirecionar para a página de login
+    }
 }
+

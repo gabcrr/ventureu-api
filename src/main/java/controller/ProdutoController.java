@@ -60,6 +60,7 @@ public class ProdutoController extends HttpServlet {
 		        case "/produtos/update":
 		        	 update(request, response);
 		            break;
+		        
 		    
 		        default:
 		        	listar(request, response);
@@ -138,4 +139,6 @@ public class ProdutoController extends HttpServlet {
 		request.setAttribute("produto", produtoAlterar);
 		response.sendRedirect("listar");
 	}
+	
+	
 }

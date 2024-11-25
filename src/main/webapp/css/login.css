@@ -1,0 +1,137 @@
+@charset "UTF-8";
+* {
+    font-family: 'Unbounded', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #121212;
+    color: #E5E5E5;
+}
+
+#form_container {
+    border: 2px solid #1F1F1F;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    min-width: 500px; /* Largura mínima aumentada */
+    max-width: 600px; /* Aumentando a largura máxima para dar mais espaço */
+    padding: 40px; /* Mantendo o espaçamento interno confortável */
+    background-color: #181818;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.6); /* Sombra maior para profundidade */
+}
+
+.container_logo h2 {
+    color: #FFFFFF;
+    font-size: 2.0em; /* Tamanho do texto alterado para manter uniformidade */
+    margin-bottom: 8px; /* Mantido conforme cadastro */
+    text-align: center;
+}
+
+.container_logo p {
+    color: #A5A5A5;
+    font-size: 16px; /* Tamanho de subtítulo */
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.container_logo img {
+    display: block;
+    margin: 0 auto 30px auto;
+    width: 100px; /* Um pouco maior para melhor visibilidade */
+    height: auto;
+}
+
+form label {
+    color: #E5E5E5;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 6px; /* Mantido como antes */
+    font-size: 18px; /* Aumentado para manter uniformidade com o cadastro */
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: 100%; /* Largura total */
+    padding: 14px; /* Aumentando o espaçamento interno */
+    border-radius: 8px; /* Curvas mais suaves */
+    border: 1px solid #D71E1E; /* Bordas vermelhas */
+    background-color: #1E1E1E;
+    color: #FFFFFF;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 0 20px rgba(215, 30, 30, 0.7); /* Sombra intensa */
+    font-size: 16px; /* Tamanho de fonte maior para facilitar leitura */
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus {
+    border-color: #D71E1E; 
+    box-shadow: 0 0 25px rgba(215, 30, 30, 0.9); 
+    outline: none; 
+}
+
+/* Estilo para auto-fill */
+form input:-webkit-autofill {
+    background-color: #333333 !important; /* Cor de fundo para auto-fill */
+    -webkit-box-shadow: 0 0 0px 1000px #333333 inset; /* Remove cor de fundo padrão do navegador */
+    color: #FFFFFF !important; /* Texto em branco */
+}
+
+/* Estilo para hover */
+form input[type="text"]:hover,
+form input[type="password"]:hover {
+    border-color: #D71E1E; /* Cor da borda ao passar o mouse */
+    box-shadow: 0 0 25px rgba(215, 30, 30, 0.8); /* Sombra mais intensa no hover */
+}
+
+form button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    background-color: #D71E1E; /* Cor de fundo vermelha */
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 200ms ease;
+}
+
+form button[type="submit"]:hover {
+    background-color: #C71E1E; /* Cor mais escura ao passar o mouse */
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.button-container a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    transition: color 300ms ease-in-out;
+}
+
+.button-container a:hover {
+    color: #D71E1E;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #777777;
+    font-size: 14px;
+}
