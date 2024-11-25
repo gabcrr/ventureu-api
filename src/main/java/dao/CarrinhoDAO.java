@@ -15,7 +15,7 @@ public class CarrinhoDAO {
     public boolean inserir(CarrinhoItem item) {
         boolean retorno = false;
 
-        String sql = "INSERT INTO carrinho (produto_id, quantidade) VALUES (?, ?)";
+        String sql = "INSERT INTO carrinho (produto_id, quantidade, usuario_id) VALUES (?, ?, ?)";
 
         try (
             Connection conexao = ConnectionFactory.getConexao();
@@ -23,6 +23,7 @@ public class CarrinhoDAO {
         ) {
             comando.setInt(1, item.getProdutoId());
             comando.setInt(2, item.getQuantidade());
+            comando.setInt(3, item.getUsuarioId());
 
             int linhasAfetadas = comando.executeUpdate();
 
@@ -36,21 +37,23 @@ public class CarrinhoDAO {
         return retorno;
     }
 
-    public ArrayList<CarrinhoItem> listar() {
+    public ArrayList<CarrinhoItem> listar(int usuarioId) {
         ArrayList<CarrinhoItem> listaRetorno = new ArrayList<>();
-        String sql = "SELECT * FROM carrinho";
+        String sql = "SELECT * FROM carrinho WHERE usuario_id = ?";
 
         try (
             Connection conexao = ConnectionFactory.getConexao();
             PreparedStatement comando = conexao.prepareStatement(sql);
-            ResultSet rs = comando.executeQuery();
         ) {
+            comando.setInt(1, usuarioId);
+            ResultSet rs = comando.executeQuery();
+
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int produtoId = rs.getInt("produto_id");
                 int quantidade = rs.getInt("quantidade");
 
-                CarrinhoItem item = new CarrinhoItem(id, produtoId, quantidade);
+                CarrinhoItem item = new CarrinhoItem(id, produtoId, quantidade, usuarioId);
                 listaRetorno.add(item);
             }
 
@@ -60,6 +63,7 @@ public class CarrinhoDAO {
         }
 
         return listaRetorno;
+
     }
 
     public CarrinhoItem buscarPorId(int id) {

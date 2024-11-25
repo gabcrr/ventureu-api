@@ -13,66 +13,66 @@ import utils.ConnectionFactory;
 
 @WebServlet("/UsuarioController")
 public class UsuarioController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public UsuarioController() {
-        super();
-    }
+	public UsuarioController() {
+		super();
+	}
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String action = request.getParameter("action");
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String action = request.getParameter("action");
 
-        if (action != null) {
-            switch (action) {
-                case "cadastrar":
-                    cadastrarUsuario(request, response);
-                    break;
-                case "login":
-                    loginUsuario(request, response);
-                    break;
-                default:
-                    response.sendRedirect("error.jsp");
-                    break;
-            }
-        } else {
-            response.sendRedirect("error.jsp");
-        }
-    }
+		if (action != null) {
+			switch (action) {
+			case "cadastrar":
+				cadastrarUsuario(request, response);
+				break;
+			case "login":
+				loginUsuario(request, response);
+				break;
+			default:
+				response.sendRedirect("error.jsp");
+				break;
+			}
+		} else {
+			response.sendRedirect("error.jsp");
+		}
+	}
 
-    private void cadastrarUsuario(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String nome = request.getParameter("nome");
-        String email = request.getParameter("email");
-        String senha = request.getParameter("senha");
+	private void cadastrarUsuario(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String nome = request.getParameter("nome");
+		String email = request.getParameter("email");
+		String senha = request.getParameter("senha");
 
-        Usuario usuario = new Usuario(nome, email, senha); 
+		Usuario usuario = new Usuario(nome, email, senha);
 
-        try {
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
+		try {
+			UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-            if (usuarioDAO.emailJaExiste(email)) {
-                response.sendRedirect("views/cadastro/cadastro-existente.jsp"); 
-            } else {
-                boolean sucesso = usuarioDAO.inserir(usuario);
-                if (sucesso) {
-                    response.sendRedirect("views/cadastro/successCadastro.jsp");
-                } else {
-                    response.sendRedirect("views/cadastro/errorCadastro.jsp");
-                }
-            }
-            
+			if (usuarioDAO.emailJaExiste(email)) {
+				response.sendRedirect("views/cadastro/cadastro-existente.jsp");
+			} else {
+				boolean sucesso = usuarioDAO.inserir(usuario);
+				if (sucesso) {
+					response.sendRedirect("views/cadastro/successCadastro.jsp");
+				} else {
+					response.sendRedirect("views/cadastro/errorCadastro.jsp");
+				}
+			}
+
 //            if (sucesso) {
 //                response.sendRedirect("views/cadastro/successCadastro.jsp");
 //            } else {
 //                response.sendRedirect("views/cadastro/errorCadastro.jsp");
 //            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect("error.jsp");
-        }
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect("error.jsp");
+		}
+	}
 
 //    private void loginUsuario(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {
@@ -95,43 +95,49 @@ public class UsuarioController extends HttpServlet {
 //            response.sendRedirect("webapp/error.jsp");
 //        }
 //    }
-    
-    private void loginUsuario(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String senha = request.getParameter("senha");
 
-        final String ADMIN_EMAIL = "admin@admin.com";
-        final String ADMIN_SENHA = "admin";
+	private void loginUsuario(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String email = request.getParameter("email");
+		String senha = request.getParameter("senha");
 
-        try (var connection = ConnectionFactory.getConexao()) {
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
+		final String ADMIN_EMAIL = "admin@admin.com";
+		final String ADMIN_SENHA = "admin";
 
-            // Primeiro verificamos se o usuário é o administrador fixo
-            if (email.equals(ADMIN_EMAIL) && senha.equals(ADMIN_SENHA)) {
-                Usuario admin = new Usuario();
-                admin.setNome("Administrador");
-                admin.setEmail(ADMIN_EMAIL);
-                request.getSession().setAttribute("usuarioLogado", admin);
-                request.getSession().setAttribute("isAdmin", true);
-                response.sendRedirect("views/admin/admin-home.jsp");
-                return;
-            }
+		try (var connection = ConnectionFactory.getConexao()) {
+			UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-            // Caso contrário, verificamos no banco de dados
-            Usuario usuario = usuarioDAO.buscarUsuarioPorEmailESenha(email, senha);
+			// Verifica se é o administrador fixo
+			if (email.equals(ADMIN_EMAIL) && senha.equals(ADMIN_SENHA)) {
+				Usuario admin = new Usuario();
+				admin.setId(0); // ID fixo para administrador
+				admin.setNome("Administrador");
+				admin.setEmail(ADMIN_EMAIL);
+				request.getSession().setAttribute("usuarioId", admin.getId());
+				request.getSession().setAttribute("usuarioLogado", admin);
+				request.getSession().setAttribute("isAdmin", true);
+				response.sendRedirect("views/admin/admin-home.jsp");
+				return;
+			}
 
-            if (usuario != null) {
-                request.getSession().setAttribute("usuarioLogado", usuario);
-                request.getSession().setAttribute("isAdmin", false);
-                response.sendRedirect("views/home.jsp");
-            } else {
-                response.sendRedirect("views/cadastro/cadastro-existente.jsp");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect("error.jsp");
-        }
-    }
+			// Caso contrário, verifica no banco de dados
+			Usuario usuario = usuarioDAO.buscarUsuarioPorEmailESenha(email, senha);
+
+			if (usuario != null) {
+				// Armazena o ID do usuário na sessão
+				request.getSession().setAttribute("usuarioId", usuario.getId());
+				System.out.println("ID armazenado na sessão: " + usuario.getId());
+				response.sendRedirect("views/produtos/produto-listar.jsp");
+			} else {
+				response.sendRedirect("views/login/login-fail.jsp");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect("error.jsp");
+		}
+
+		System.out.println("Usuário logado com ID: " + request.getSession().getAttribute("usuarioId"));
+
+	}
 
 }

@@ -5,20 +5,24 @@ public class CarrinhoItem {
     private int produtoId;       // ID do produto (relacionado a Produto.idProduto)
     private int quantidade;      // Quantidade do produto no carrinho
     private Produto produto;     // Objeto Produto associado
+    private int usuarioId;
 
     public CarrinhoItem() {
     }
 
-    public CarrinhoItem(int produtoId, int quantidade) {
+    public CarrinhoItem(int produtoId, int quantidade, int usuarioId) {
         this.produtoId = produtoId;
         this.quantidade = quantidade;
+        this.usuarioId = usuarioId;
     }
 
-    public CarrinhoItem(int id, int produtoId, int quantidade) {
+    public CarrinhoItem(int id, int produtoId, int quantidade, int usuarioId) {
         this.id = id;
         this.produtoId = produtoId;
         this.quantidade = quantidade;
+        this.usuarioId = usuarioId;
     }
+
 
     // Getter e Setter para o ID do item no carrinho
     public int getId() {
@@ -54,6 +58,14 @@ public class CarrinhoItem {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+    }
+    
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     @Override

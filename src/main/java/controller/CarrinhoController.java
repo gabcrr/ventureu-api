@@ -12,12 +12,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.CarrinhoItem;
 import model.Produto;
 
-/**
- * Servlet implementation class CarrinhoController
- */
+
 @WebServlet(name = "carrinho", urlPatterns = {"/carrinho", "/carrinho/adicionar", "/carrinho/listar", "/carrinho/remover"})
 public class CarrinhoController extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -63,21 +62,37 @@ public class CarrinhoController extends HttpServlet {
     }
 
     private void adicionarAoCarrinho(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    	
+    	HttpSession session = request.getSession();
+    	Integer usuarioId = (Integer) session.getAttribute("usuarioId");
+
+    	if (usuarioId == null) {
+    	    response.sendRedirect("views/login/login.jsp");
+    	    return;
+    	}
+
+    	// Continue com a lógica do carrinho
+
+    	
         int produtoId = Integer.parseInt(request.getParameter("produtoId"));
         int quantidade = Integer.parseInt(request.getParameter("quantidade"));
 
         Produto produto = produtoDAO.buscarPorId(produtoId);
         if (produto != null && quantidade > 0) {
-            CarrinhoItem novoItem = new CarrinhoItem(produtoId, quantidade);
+            CarrinhoItem novoItem = new CarrinhoItem(produtoId, quantidade, usuarioId);
             carrinhoDAO.inserir(novoItem);
         }
 
         response.sendRedirect("listar");
     }
 
+
     private void listarCarrinho(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    	
+    	int usuarioId = (int) request.getSession().getAttribute("usuarioId");
+
         // Obtém os dados do carrinho e produtos
-        ArrayList<CarrinhoItem> listaCarrinho = carrinhoDAO.listar();
+        ArrayList<CarrinhoItem> listaCarrinho = carrinhoDAO.listar(usuarioId);
         ArrayList<Produto> listaProdutos = produtoDAO.listar();
 
         // Mapear produtos aos itens do carrinho
