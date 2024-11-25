@@ -20,6 +20,12 @@
         </div>
         <button type="submit">Entrar</button>
     </form>
+    
+    <div>
+    <!-- Adicione o link para o JSP de recuperação de senha -->
+    <a href="views/login/forgot-password.jsp">Esqueceu a senha?</a>
+</div>
+    
     <a href="${pageContext.request.contextPath}/views/cadastro/usuario-cadastro.jsp">Ainda não tem conta? Cadastre-se</a>
 </body>
 </html>

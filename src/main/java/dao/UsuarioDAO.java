@@ -161,7 +161,7 @@ public class UsuarioDAO {
 
         return retorno;
     }
-    
+
     public boolean emailJaExiste(String email) {
         boolean existe = false;
 
@@ -185,7 +185,7 @@ public class UsuarioDAO {
 
         return existe;
     }
-    
+
     public Usuario buscarUsuarioPorEmailESenha(String email, String senha) {
         Usuario usuario = null;
 
@@ -215,5 +215,54 @@ public class UsuarioDAO {
         return usuario;
     }
 
+    // NOVOS MÉTODOS: Recuperação de senha
 
+    public Usuario buscarPorEmail(String email) {
+        Usuario usuario = null;
+        String sql = "SELECT * FROM usuario WHERE email = ?";
+
+        try (
+            Connection conexao = ConnectionFactory.getConexao();
+            PreparedStatement comando = conexao.prepareStatement(sql);
+        ) {
+            comando.setString(1, email);
+
+            try (ResultSet rs = comando.executeQuery()) {
+                if (rs.next()) {
+                    usuario = new Usuario();
+                    usuario.setId(rs.getInt("id"));
+                    usuario.setNome(rs.getString("nome"));
+                    usuario.setEmail(rs.getString("email"));
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erro ao buscar usuário por email: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return usuario;
+    }
+
+    public boolean atualizarSenha(int userId, String novaSenha) {
+        boolean sucesso = false;
+        String sql = "UPDATE usuario SET senha = ? WHERE id = ?";
+
+        try (
+            Connection conexao = ConnectionFactory.getConexao();
+            PreparedStatement comando = conexao.prepareStatement(sql);
+        ) {
+            comando.setString(1, novaSenha); // Adicione hash na senha futuramente
+            comando.setInt(2, userId);
+
+            int linhasAfetadas = comando.executeUpdate();
+            if (linhasAfetadas > 0) {
+                sucesso = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erro ao atualizar senha: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return sucesso;
+    }
 }
